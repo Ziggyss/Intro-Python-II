@@ -32,7 +32,7 @@ room['foyer'].e_to = room['narrow']
 room['overlook'].s_to = room['foyer']
 room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+room['treasure'].s_to = room['narrow'] #I don't fully understand what these dot notation bits actually do. Do they just mean that the room on the left with this dot notation is reassigned to the room on the right?
 
 #
 # Main
@@ -67,11 +67,11 @@ welcome_message()
 while True:   # I followed the examples in the folder here but wasn't entirely sure if I needed the while True statement.
     print(player.room)
     direction = input(f" Please choose a direction: n, s, e or w ")
-    current_room = player.room #This is the only way I could get this whole task to work - by assigning player.room to a new variable/label. I'm still not fully sure how we are accessing the .n_to etc.
+    current_room = player.room #This is the only way I could get this whole task to work - by assigning player.room to a new variable/label. I'm still not fully sure how we are accessing the .n_to etc. I just tested it with the previous implementation and it actually works without it now... I have no idea what I did wrong but I'll leave this comment for now anyway.
     if direction == 'n':
         print(f'You chose north...')
         if current_room.n_to is not None:
-            player.room = current_room.n_to
+            player.room = current_room.n_to 
         else:
             print(noGoMessage)
     elif direction == 'w':
