@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -39,6 +40,10 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+player = Player("Lisa", room['outside'])
+# print(player)
+
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +54,47 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+direction = " "
+
+
+def welcome_message():
+    print(player)
+
+noGoMessage = "Sorry, you can't go in that direction."    
+
+welcome_message()
+while True:   # I followed the examples in the folder here but wasn't entirely sure if I needed the while True statement.
+    print(player.room)
+    direction = input(f" Please choose a direction: n, s, e or w ")
+    current_room = player.room #This is the only way I could get this whole task to work - by assigning player.room to a new variable/label. I'm still not fully sure how we are accessing the .n_to etc.
+    if direction == 'n':
+        print(f'You chose north...')
+        if current_room.n_to is not None:
+            player.room = current_room.n_to
+        else:
+            print(noGoMessage)
+    elif direction == 'w':
+        print(f'You chose west...')
+        if current_room.w_to is not None:
+            player.room = current_room.w_to   
+        else:
+            print(noGoMessage)
+    elif direction == 'e':
+        print(f"You chose east...")
+        if current_room.e_to is not None:
+            player.room = current_room.e_to 
+        else:
+            print(noGoMessage) 
+    elif direction == 's':
+        print(f"You chose south...")
+        if current_room.s_to is not None:
+            player.room = current_room.s_to
+        else:
+            print(noGoMessage)   
+    elif direction == 'q':
+        print(f"You decided to quit the game.")
+        break
+    else:
+        print(f"Please enter a valid direction, n, s, e or w.")                                    
+            
