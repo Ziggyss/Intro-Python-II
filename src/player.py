@@ -21,10 +21,11 @@ class Player:
     def print_inventory(self):
         output = ''
         if len(self.items) != 0:
-            output += f" You are carrying:"
-            for i in self.items:
-                output += f' -- {i}'
-                return output
+            return "You are carrying: \n" + ", ".join([item for item in self.items]) + "\n"
+            # output += f" You are carrying:"
+            # for i in self.items:
+            #     output += f' -- {i}'
+            #     return output
     #For some reason I cannot get this loop to print out more than one of the items the player is holding... Not sure why yet.            
                 
         else:
