@@ -6,7 +6,7 @@ from item import Item
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons", [Item("apron", "A discarded, dusty apron. It has the words 'Patricia's Diner' written on the front."), Item("rotten flesh", "A stinky, maggot-ridden piece of flesh. You hope it has nothing to do with Patricia, or her diner.")]),
+                     "North of you, the cave mount beckons", [Item("apron", "A discarded, dusty apron. It has the words 'Patricia's Diner' written on the front."), Item("foot", "A rotten, maggot-ridden, severed foot. You hope it has nothing to do with Patricia, or her diner.")]),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east.""", [Item("note", "A crumpled note. On closer inspection you can see something written on it... \n '2:47am, don't be late! \n And bring the spade! \n Margory'")]),
@@ -46,7 +46,7 @@ print('\n --------------------------------------\n',
 
 
 name = input(f" Welcome! Please enter your name: ")
-player = Player(name, room['outside'])
+player = Player(name, room['outside'], items = [])
 
 # player = Player("Lisa", room['outside'])
 # print(player)
@@ -75,7 +75,6 @@ welcome_message()
 while True:   
     print(player.room)
     cmd = input(f"\n Please type a command. For help, type 'h' ").split()
-    print(cmd)
     current_room = player.room 
     if cmd[0] == 'n':
         print(f'\n ...\n\n You chose north...')
@@ -107,8 +106,16 @@ while True:
     elif cmd[0] == 'get':
         if len(cmd) > 1:
             player.get_item(cmd[1])
+            player.room.remove_item(cmd[1])
         else:
             print(f"Which item do you want to get?")
+
+    elif cmd[0] == 'drop':
+        if len(cmd) > 1:
+            player.discard_item(cmd[1])
+            player.room.add_item(cmd[1])
+        else:
+            print(f"Which item do you want to drop?")        
 
     elif cmd[0] == 'q':
         print(f"\n ...\n\n You decided to quit the game.")

@@ -13,6 +13,15 @@ class Room:
         self.w_to = None
         self.e_to = None
 
+    def add_item(self, item):
+        for item in self.items:
+           self.items.append(item)          
+
+    def remove_item(self, item):
+        for item in self.items:
+            self.items.remove(item)   
+    #At this point the code will remove an item from a room successfully but it will not add it again                 
+
     def __str__(self):
         output = ''
         output += f'\n You are here: {self.name} \n \n {self.description}\n'
