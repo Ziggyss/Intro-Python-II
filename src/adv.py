@@ -1,25 +1,26 @@
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons", [Item("apron", "A discarded, dusty apron. It has the words 'Patricia's Diner' written on the front."), Item("rotten flesh", "A stinky, maggot-ridden piece of flesh. You hope it has nothing to do with Patricia, or her diner.")]),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+passages run north and east.""", [Item("note", "A crumpled note. On closer inspection you can see something written on it... \n '2:47am, don't be late! \n And bring the spade! \n Margory'")]),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way across the chasm.""", [Item("frog", "A green and red frog who looks up at you blinking. You can't figure out if he's bored or if he's desperately trying to communicate.")]),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+to north. The smell of gold permeates the air.""", [Item("book", "A heavy, ancient tome entitled 'Master Python in 10 days'")]),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+earlier adventurers. The only exit is to the south.""", [Item("map", "A treasure map that indicates the location of the treasure room itself. There is some chewing gum stuck to the edge of it and a doodle depicting a stick man shooting what looks like a water pistol.")]),
 }
 
 
@@ -32,15 +33,22 @@ room['foyer'].e_to = room['narrow']
 room['overlook'].s_to = room['foyer']
 room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow'] #I don't fully understand what these dot notation bits actually do. Do they just mean that the room on the left with this dot notation is reassigned to the room on the right?
-
+room['treasure'].s_to = room['narrow']
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
 
-player = Player("Lisa", room['outside'])
+print('\n --------------------------------------\n',
+'Welcome to Magical Apocalypse - Part 9 \n',
+'--------------------------------------\n')
+
+
+name = input(f" Welcome! Please enter your name: ")
+player = Player(name, room['outside'])
+
+# player = Player("Lisa", room['outside'])
 # print(player)
 
 
@@ -59,42 +67,52 @@ direction = " "
 
 
 def welcome_message():
-    print(player)
+    print(f'\n ---------------------- \n {player} \n ---------------------- \n ')
 
-noGoMessage = "Sorry, you can't go in that direction."    
+noGoMessage = "\n Sorry, you can't go in that direction."    
 
 welcome_message()
-while True:   # I followed the examples in the folder here but wasn't entirely sure if I needed the while True statement.
+while True:   
     print(player.room)
-    direction = input(f" Please choose a direction: n, s, e or w ")
-    current_room = player.room #This is the only way I could get this whole task to work - by assigning player.room to a new variable/label. I'm still not fully sure how we are accessing the .n_to etc. I just tested it with the previous implementation and it actually works without it now... I have no idea what I did wrong but I'll leave this comment for now anyway.
-    if direction == 'n':
-        print(f'You chose north...')
+    cmd = input(f"\n Please type a command. For help, type 'h' ").split()
+    print(cmd)
+    current_room = player.room 
+    if cmd[0] == 'n':
+        print(f'\n ...\n\n You chose north...')
         if current_room.n_to is not None:
             player.room = current_room.n_to 
         else:
             print(noGoMessage)
-    elif direction == 'w':
-        print(f'You chose west...')
+    elif cmd[0] == 'w':
+        print(f'\n ...\n\n You chose west...')
         if current_room.w_to is not None:
             player.room = current_room.w_to   
         else:
             print(noGoMessage)
-    elif direction == 'e':
-        print(f"You chose east...")
+    elif cmd[0] == 'e':
+        print(f"\n ...\n\n You chose east...")
         if current_room.e_to is not None:
             player.room = current_room.e_to 
         else:
             print(noGoMessage) 
-    elif direction == 's':
-        print(f"You chose south...")
+    elif cmd[0] == 's':
+        print(f"\n ...\n\n You chose south...")
         if current_room.s_to is not None:
             player.room = current_room.s_to
         else:
-            print(noGoMessage)   
-    elif direction == 'q':
-        print(f"You decided to quit the game.")
+            print(noGoMessage)  
+    elif cmd[0] == 'i':
+        print(player.print_inventory())   
+
+    elif cmd[0] == 'get':
+        if len(cmd) > 1:
+            player.get_item(cmd[1])
+        else:
+            print(f"Which item do you want to get?")
+
+    elif cmd[0] == 'q':
+        print(f"\n ...\n\n You decided to quit the game.")
         break
     else:
-        print(f"Please enter a valid direction, n, s, e or w.")                                    
+        print(f"Please enter a valid command.")                                    
             
